@@ -4,6 +4,8 @@ import (
 	"log"
 	"time"
 
+	"github.com/gabriel-tama/banking-app/api/user"
+	"github.com/gabriel-tama/banking-app/common/jwt"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/ratelimit"
 )
@@ -13,6 +15,8 @@ var (
 )
 
 type RouterParam struct {
+	JwtService     *jwt.JWTService
+	UserController *user.Controller
 }
 
 func leakBucket() gin.HandlerFunc {
@@ -34,9 +38,11 @@ func SetupRouter(param RouterParam) *gin.Engine {
 	router.Use(gin.Recovery())
 
 	// Setup API version 1 routes
-	// v1 := router.Group("/v1")
-	// {
-	// }
+	v1 := router.Group("/v1")
+	{
+		user.NewRouter(v1, param.UserController, param.JwtService)
+
+	}
 
 	router.GET("/rate", func(c *gin.Context) {
 		c.JSON(200, "rate limiting test")

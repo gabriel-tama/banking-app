@@ -7,8 +7,10 @@ import (
 	"net/http"
 
 	"github.com/gabriel-tama/banking-app/api/router"
+	"github.com/gabriel-tama/banking-app/api/user"
 	C "github.com/gabriel-tama/banking-app/common/config"
 	psql "github.com/gabriel-tama/banking-app/common/db"
+	"github.com/gabriel-tama/banking-app/common/jwt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,7 +28,20 @@ func main() {
 	}
 	defer db.Close(context.Background())
 
-	router := router.SetupRouter(router.RouterParam{})
+	// Repository
+	userRepository := user.NewRepository(db, env.BCRYPT_Salt)
+
+	// Service
+	jwtService := jwt.NewJWTService(env.JWTSecret, env.JWTExp)
+	userService := user.NewService(userRepository, jwtService)
+
+	// Controller
+	userController := user.NewController(userService)
+
+	router := router.SetupRouter(router.RouterParam{
+		JwtService:     &jwtService,
+		UserController: userController,
+	})
 
 	router.GET("/v1/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
