@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/gabriel-tama/banking-app/api/image"
 	"github.com/gabriel-tama/banking-app/api/user"
 	"github.com/gabriel-tama/banking-app/common/jwt"
 	"github.com/gin-gonic/gin"
@@ -15,8 +16,9 @@ var (
 )
 
 type RouterParam struct {
-	JwtService     *jwt.JWTService
-	UserController *user.Controller
+	JwtService      *jwt.JWTService
+	UserController  *user.Controller
+	ImageController *image.ImageController
 }
 
 func leakBucket() gin.HandlerFunc {
