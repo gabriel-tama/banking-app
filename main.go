@@ -8,6 +8,7 @@ import (
 
 	"github.com/gabriel-tama/banking-app/api/image"
 	"github.com/gabriel-tama/banking-app/api/router"
+	"github.com/gabriel-tama/banking-app/api/transaction"
 	"github.com/gabriel-tama/banking-app/api/user"
 	C "github.com/gabriel-tama/banking-app/common/config"
 	psql "github.com/gabriel-tama/banking-app/common/db"
@@ -31,20 +32,23 @@ func main() {
 
 	// Repository
 	userRepository := user.NewRepository(db, env.BCRYPT_Salt)
+	transactionRepository := transaction.NewRepository(db)
 
 	// Service
 	jwtService := jwt.NewJWTService(env.JWTSecret, env.JWTExp)
 	userService := user.NewService(userRepository, jwtService)
 	s3Service := image.NewS3Service(env.S3ID, env.S3Secret, env.S3Bucket, env.S3Url, env.S3Region)
-
+	transactionService := transaction.NewService(transactionRepository, jwtService)
 	// Controller
 	userController := user.NewController(userService)
 	imgController := image.NewImageController(s3Service)
+	transactionController := transaction.NewController(transactionService)
 
 	router := router.SetupRouter(router.RouterParam{
-		JwtService:      &jwtService,
-		ImageController: imgController,
-		UserController:  userController,
+		JwtService:            &jwtService,
+		ImageController:       imgController,
+		UserController:        userController,
+		TransactionController: transactionController,
 	})
 
 	router.GET("/v1/ping", func(c *gin.Context) {
