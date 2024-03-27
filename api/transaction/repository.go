@@ -2,10 +2,12 @@ package transaction
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/gabriel-tama/banking-app/common/db"
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 )
 
 type Repository interface {
@@ -44,11 +46,17 @@ func (d *dbRepository) Add(ctx context.Context, req *AddBalancePayload, userId i
 
 func (d *dbRepository) Reduce(ctx context.Context, req *ReduceBalancePayload, userId int) error {
 	var balanceId int
+	var pgErr *pgconn.PgError
+
 	err := d.db.StartTx(ctx, func(tx pgx.Tx) error {
 		err := tx.QueryRow(ctx,
 			"UPDATE balances SET balance=balance-$2 WHERE userId=$1 AND currencyCode=$3 RETURNING balances.id",
 			userId, req.AddBalance, req.Currency).Scan(&balanceId)
 		if err != nil {
+			if errors.As(err, &pgErr) && pgErr.Code == "23514" {
+				return ErrNotEnoughBalance
+			}
+
 			return err
 		}
 
@@ -62,7 +70,11 @@ func (d *dbRepository) Reduce(ctx context.Context, req *ReduceBalancePayload, us
 }
 
 func (d *dbRepository) Get(ctx context.Context, userId int) (*GetBalanceResponse, error) {
-	rows, err := d.db.Pool.Query(ctx, "SELECT balance, currencyCode FROM balances WHERE userId=$1", userId)
+	rows, err := d.db.Pool.Query(ctx, "SELECT balance, currencyCode FROM balances WHERE userId=$1 ORDER BY balance DESC", userId)
+
+	if err != nil {
+		return nil, err
+	}
 	defer rows.Close()
 	var res GetBalanceResponse
 
@@ -73,10 +85,6 @@ func (d *dbRepository) Get(ctx context.Context, userId int) (*GetBalanceResponse
 			return nil, err
 		}
 		res = append(res, balance)
-	}
-
-	if err != nil {
-		return nil, err
 	}
 
 	return &res, err
@@ -96,10 +104,11 @@ func (d *dbRepository) GetHistory(ctx context.Context, req *GetHistoryPayload, u
         FROM UserTransactions;
         `
 	rows, err := d.db.Pool.Query(ctx, stmt, userId, req.Limit, req.Offset)
-	defer rows.Close()
 	if err != nil {
 		return nil, 0, err
 	}
+	defer rows.Close()
+
 	var res GetHistoryResponse
 	var total int
 	for rows.Next() {
