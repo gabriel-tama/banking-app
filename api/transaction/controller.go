@@ -78,6 +78,10 @@ func (c *Controller) ReduceBalance(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
+	if errors.Is(err, ErrNotEnoughBalance) {
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
 
 	if err != nil {
 		fmt.Println(err)
