@@ -9,6 +9,8 @@ services:
     environment:
       # ⚠️ not a good production practice, because hacker can snoop the docker env within the docker container
       # but we need it for our demonstration
+      HOST: ${HOST}
+      PORT: ${PORT}
       DB_NAME: ${DB_NAME}
       DB_PORT: ${DB_PORT}
       DB_HOST: ${DB_HOST}
@@ -16,6 +18,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_PARAMS: ${DB_PARAMS}
       JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION: ${JWT_EXPIRATION}
       BCRYPT_SALT: ${BCRYPT_SALT}
       S3_ID: ${S3_ID}
       S3_SECRET_KEY: ${S3_SECRET_KEY}

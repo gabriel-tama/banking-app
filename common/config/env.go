@@ -42,13 +42,13 @@ func Get() (*Config, error) {
 
 	JWTExp, err := strconv.Atoi(os.Getenv("JWT_EXPIRATION"))
 	if err != nil {
-		log.Println("Error parsing JWT_EXPIRATION, Setting JWT_EXPIRATION to 60")
+		log.Fatal("Error parsing JWT_EXPIRATION, Setting JWT_EXPIRATION to 60")
 		JWTExp = 60
 	}
 
 	salt, err := strconv.Atoi(os.Getenv("BCRYPT_SALT"))
 	if err != nil {
-		log.Println("Error parsing BCRYPT_SALT, Setting SALT to 8")
+		log.Fatal("Error parsing BCRYPT_SALT, Setting SALT to 8")
 		salt = 8
 	}
 
