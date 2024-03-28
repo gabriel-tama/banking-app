@@ -9,7 +9,9 @@ import (
 	"github.com/gabriel-tama/banking-app/api/transaction"
 	"github.com/gabriel-tama/banking-app/api/user"
 	"github.com/gabriel-tama/banking-app/common/jwt"
+	"github.com/gabriel-tama/banking-app/common/middleware"
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go.uber.org/ratelimit"
 )
 
@@ -38,9 +40,11 @@ func SetupRouter(param RouterParam) *gin.Engine {
 	router := gin.Default()
 
 	router.SetTrustedProxies([]string{"::1"}) // This is for reverse proxy
-
+	router.Use(middleware.GinPrometheusMiddleware())
 	router.Use(leakBucket())
 	router.Use(gin.Recovery())
+
+	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
 	// Setup API version 1 routes
 	v1 := router.Group("/v1")

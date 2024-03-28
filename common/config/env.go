@@ -37,19 +37,19 @@ func Get() (*Config, error) {
 	err := godotenv.Load()
 	if err != nil {
 		fmt.Println(err)
-		log.Fatal("Error loading .env file")
+		log.Println("Error loading .env file")
 	}
 
 	JWTExp, err := strconv.Atoi(os.Getenv("JWT_EXPIRATION"))
 	if err != nil {
-		log.Fatal("Error parsing JWT_EXPIRATION")
+		log.Println("Error parsing JWT_EXPIRATION, Setting JWT_EXPIRATION to 60")
 		JWTExp = 60
 	}
 
 	salt, err := strconv.Atoi(os.Getenv("BCRYPT_SALT"))
 	if err != nil {
-		log.Fatal("Error parsing BCRYPT_SALT")
-		salt = 10
+		log.Println("Error parsing BCRYPT_SALT, Setting SALT to 8")
+		salt = 8
 	}
 
 	Conf = &Config{
