@@ -45,6 +45,7 @@ func SetupRouter(param RouterParam) *gin.Engine {
 	router.Use(gin.Recovery())
 
 	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
+	router.GET("/healthz", param.UserController.PingDB)
 
 	// Setup API version 1 routes
 	v1 := router.Group("/v1")
