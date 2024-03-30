@@ -1,4 +1,4 @@
-package transaction
+package balance
 
 type AddBalancePayload struct {
 	Sender        string `json:"senderBankAccountNumber" binding:"required,min=5,max=50"`

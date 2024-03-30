@@ -3,10 +3,11 @@ package image
 import (
 	"fmt"
 	"net/http"
-	"time"
+	"path/filepath"
 
 	"github.com/gabriel-tama/banking-app/common/response"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type ImageController struct {
@@ -68,7 +69,10 @@ func (ic *ImageController) UploadImage(c *gin.Context) {
 	}
 	fileBuffer.Close()
 
-	objKey := fmt.Sprintf("%s/%v-%s", "ngab-gab", time.Now().Unix(), file.Filename)
+	uuid := uuid.New()
+
+	extension := filepath.Ext(file.Filename)
+	objKey := fmt.Sprintf("%s/%s%s", "ngab-gab", uuid, extension)
 
 	_, err = ic.s3Service.UploadFile(objKey, fileBuffer, contentType)
 	if err != nil {

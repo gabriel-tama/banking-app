@@ -1,4 +1,4 @@
-package transaction
+package balance
 
 import (
 	"context"
@@ -76,7 +76,7 @@ func (d *dbRepository) Get(ctx context.Context, userId int) (*GetBalanceResponse
 		return nil, err
 	}
 	defer rows.Close()
-	var res GetBalanceResponse
+	var res GetBalanceResponse = []SingleBalanceRes{}
 
 	for rows.Next() {
 		var balance SingleBalanceRes
