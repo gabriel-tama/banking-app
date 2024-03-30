@@ -53,7 +53,7 @@ func SetupRouter(param RouterParam) *gin.Engine {
 		user.NewRouter(v1, param.UserController, param.JwtService)
 		transaction.NewRouter(v1, param.TransactionController, param.JwtService)
 		balance.NewRouter(v1, param.TransactionController, param.JwtService)
-
+		image.NewImageRouter(v1, param.ImageController, param.JwtService)
 	}
 
 	router.GET("/rate", func(c *gin.Context) {

@@ -25,6 +25,7 @@ func (ic *ImageController) UploadImage(c *gin.Context) {
 
 	file, err := c.FormFile("file")
 	if err != nil {
+		res.Message = err.Error()
 		c.JSON(http.StatusBadRequest, res)
 		return
 	}
