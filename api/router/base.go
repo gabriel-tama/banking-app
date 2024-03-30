@@ -20,10 +20,10 @@ var (
 )
 
 type RouterParam struct {
-	JwtService            *jwt.JWTService
-	UserController        *user.Controller
-	ImageController       *image.ImageController
-	TransactionController *transaction.Controller
+	JwtService        *jwt.JWTService
+	UserController    *user.Controller
+	ImageController   *image.ImageController
+	BalanceController *balance.Controller
 }
 
 func leakBucket() gin.HandlerFunc {
@@ -51,9 +51,9 @@ func SetupRouter(param RouterParam) *gin.Engine {
 	v1 := router.Group("/v1")
 	{
 		user.NewRouter(v1, param.UserController, param.JwtService)
-		transaction.NewRouter(v1, param.TransactionController, param.JwtService)
-		balance.NewRouter(v1, param.TransactionController, param.JwtService)
-
+		transaction.NewRouter(v1, param.BalanceController, param.JwtService)
+		balance.NewRouter(v1, param.BalanceController, param.JwtService)
+		image.NewImageRouter(v1, param.ImageController, param.JwtService)
 	}
 
 	router.GET("/rate", func(c *gin.Context) {

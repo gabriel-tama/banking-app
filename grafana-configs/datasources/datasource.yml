@@ -1,0 +1,9 @@
+apiVersion: 1
+
+datasources:
+  - name: Myprometheus
+    type: prometheus
+    url: http://prometheus:9090
+    isDefault: true
+    orgId: 1
+    uid: cdgyzg98rn7cwc

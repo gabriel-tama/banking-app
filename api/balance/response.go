@@ -1,4 +1,4 @@
-package transaction
+package balance
 
 type SingleBalanceRes struct {
 	Amount       int    `json:"balance"`

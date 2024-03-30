@@ -52,6 +52,22 @@ func Get() (*Config, error) {
 		salt = 8
 	}
 
+	S3Bucket := os.Getenv("S3_BUCKET_NAME")
+	if S3Bucket == "" {
+		log.Fatal("S3_BUCKET_NAME is empty")
+	}
+
+	S3Region := os.Getenv("S3_REGION")
+	if S3Region == "" {
+		log.Fatal("S3_REGION is empty")
+	}
+
+	s3Url := os.Getenv("S3_BASE_URL")
+	if s3Url == "" {
+		log.Printf("S3_BASE_URL is empty")
+		s3Url = fmt.Sprintf("https://%s.s3.%s.amazonaws.com", S3Bucket, os.Getenv("S3_REGION"))
+	}
+
 	Conf = &Config{
 		Port: os.Getenv("PORT"),
 		Host: os.Getenv("HOST"),
@@ -63,11 +79,11 @@ func Get() (*Config, error) {
 		DBPassword: os.Getenv("DB_PASSWORD"),
 		DBParams:   os.Getenv("DB_PARAMS"),
 
-		S3Bucket: os.Getenv("S3_BUCKET_NAME"),
 		S3Secret: os.Getenv("S3_SECRET_KEY"),
 		S3ID:     os.Getenv("S3_ID"),
-		S3Url:    os.Getenv("S3_BASE_URL"),
-		S3Region: os.Getenv("S3_REGION"),
+		S3Bucket: S3Bucket,
+		S3Url:    s3Url,
+		S3Region: S3Region,
 
 		JWTSecret:   os.Getenv("JWT_SECRET"),
 		BCRYPT_Salt: salt,

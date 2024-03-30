@@ -1,4 +1,4 @@
-package transaction
+package balance
 
 import (
 	"fmt"
