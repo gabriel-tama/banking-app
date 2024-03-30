@@ -1,4 +1,4 @@
-# Week 2 - Banking App
+# Week 3 - Banking App
 
 ## Documents
 

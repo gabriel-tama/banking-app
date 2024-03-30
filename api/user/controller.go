@@ -67,3 +67,13 @@ func (c *Controller) LoginUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"message": "user logged in", "data": data})
 
 }
+
+func (c *Controller) PingDB(ctx *gin.Context) {
+	err := c.service.PingDB(ctx)
+	if err != nil {
+		fmt.Println(err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"service": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{"service": "ok"})
+}

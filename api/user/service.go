@@ -6,11 +6,13 @@ import (
 
 	"github.com/gabriel-tama/banking-app/common/jwt"
 	"github.com/gabriel-tama/banking-app/common/password"
+	"github.com/gin-gonic/gin"
 )
 
 type Service interface {
 	Create(ctx context.Context, req RegisterPayload) (*AuthResponse, error)
 	FindByCredential(ctx context.Context, req LoginPayload) (*AuthResponse, error)
+	PingDB(ctx *gin.Context) error
 }
 
 type userService struct {
@@ -79,4 +81,8 @@ func (s *userService) FindByCredential(ctx context.Context, req LoginPayload) (*
 		AccessToken: accessToken,
 	}, nil
 
+}
+
+func (s *userService) PingDB(ctx *gin.Context) error {
+	return s.repository.PingDB(ctx)
 }

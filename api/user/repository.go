@@ -13,6 +13,7 @@ type Repository interface {
 	Create(ctx context.Context, user *User) error
 	GetSalt() int
 	FindByCredential(ctx context.Context, user *User) error
+	PingDB(ctx context.Context) error
 }
 
 type dbRepository struct {
@@ -66,4 +67,8 @@ func (d *dbRepository) FindByCredential(ctx context.Context, user *User) error {
 
 	return nil
 
+}
+
+func (d *dbRepository) PingDB(ctx context.Context) error {
+	return d.db.Pool.Ping(ctx)
 }

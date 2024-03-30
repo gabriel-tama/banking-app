@@ -23,3 +23,6 @@ docker-up:
 
 docker-down:
 	docker compose down
+
+docker-build:
+	docker compose build

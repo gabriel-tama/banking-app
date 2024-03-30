@@ -107,3 +107,7 @@ func (db *DB) StartTx(ctx context.Context, f func(pgx.Tx) error) error {
 func (db *DB) Close(ctx context.Context) {
 	db.Pool.Close()
 }
+
+func (db *DB) PingDB(ctx context.Context) error {
+	return db.Pool.Ping(ctx)
+}
