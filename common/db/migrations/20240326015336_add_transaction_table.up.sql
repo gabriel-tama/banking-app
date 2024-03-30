@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS "transactions"(
     balanceId INT NOT NULL,
     bankAccountNumber VARCHAR(30) NOT NULL,
     bankName VARCHAR(30) NOT NULL,
-    transferProofImg VARCHAR(100),
+    transferProofImg VARCHAR(500),
     currencyCode CHAR(3) NOT NULL,
     createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (userId) REFERENCES users(id)
