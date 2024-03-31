@@ -26,6 +26,8 @@ services:
       S3_BUCKET_NAME: ${S3_BUCKET_NAME}
       S3_REGION: ${S3_REGION}
       ENV: ${ENV}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - /home/ubuntu/ap-southeast-1-bundle.pem:/home/ubuntu/ap-southeast-1-bundle.pem
 
@@ -54,6 +56,8 @@ services:
     image: grafana/grafana:latest
     ports:
       - "3000:3000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - grafana_data:/var/lib/grafana
       # • `grafana_data` refers to `volumes.grafana_data` used to make grafana information presists each restart
@@ -69,6 +73,8 @@ services:
   node_exporter:
     image: quay.io/prometheus/node-exporter:latest
     container_name: node_exporter
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
