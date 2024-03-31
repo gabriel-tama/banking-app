@@ -7,4 +7,4 @@ scrape_configs:
       - targets: ['backend:8080'] # Use 'localhost:8080' if Prometheus and the metrics source are on the same machine without Docker.
   - job_name: 'node-exporter'
     static_configs:
-      - targets: ['backend:9100']
+      - targets: ['node_exporter:9100']
