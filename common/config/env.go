@@ -42,29 +42,29 @@ func Get() (*Config, error) {
 
 	JWTExp, err := strconv.Atoi(os.Getenv("JWT_EXPIRATION"))
 	if err != nil {
-		log.Fatal("Error parsing JWT_EXPIRATION, Setting JWT_EXPIRATION to 60")
+		log.Println("Error parsing JWT_EXPIRATION, Setting JWT_EXPIRATION to 60")
 		JWTExp = 60
 	}
 
 	salt, err := strconv.Atoi(os.Getenv("BCRYPT_SALT"))
 	if err != nil {
-		log.Fatal("Error parsing BCRYPT_SALT, Setting SALT to 8")
+		log.Println("Error parsing BCRYPT_SALT, Setting SALT to 8")
 		salt = 8
 	}
 
 	S3Bucket := os.Getenv("S3_BUCKET_NAME")
 	if S3Bucket == "" {
-		log.Fatal("S3_BUCKET_NAME is empty")
+		log.Println("S3_BUCKET_NAME is empty")
 	}
 
 	S3Region := os.Getenv("S3_REGION")
 	if S3Region == "" {
-		log.Fatal("S3_REGION is empty")
+		log.Println("S3_REGION is empty")
 	}
 
 	s3Url := os.Getenv("S3_BASE_URL")
 	if s3Url == "" {
-		log.Printf("S3_BASE_URL is empty")
+		log.Println("S3_BASE_URL is empty")
 		s3Url = fmt.Sprintf("https://%s.s3.%s.amazonaws.com", S3Bucket, os.Getenv("S3_REGION"))
 	}
 
