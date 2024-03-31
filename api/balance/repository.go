@@ -62,7 +62,7 @@ func (d *dbRepository) Reduce(ctx context.Context, req *ReduceBalancePayload, us
 
 		_, err = tx.Exec(ctx,
 			"INSERT INTO transactions (userId, amount, bankAccountNumber, bankName, currencyCode, balanceId) VALUES($1, $2, $3, $4, $5, $6)",
-			userId, req.AddBalance, req.Sender, req.SenderBank, req.Currency, balanceId)
+			userId, req.AddBalance*-1, req.Sender, req.SenderBank, req.Currency, balanceId)
 		return err
 	})
 
@@ -92,7 +92,7 @@ func (d *dbRepository) Get(ctx context.Context, userId int) (*GetBalanceResponse
 
 func (d *dbRepository) GetHistory(ctx context.Context, req *GetHistoryPayload, userId int) (*GetHistoryResponse, int, error) {
 	stmt := `WITH UserTransactions AS (
-				SELECT id, (amount * -1) as amount,  bankAccountNumber, bankName, COALESCE(transferProofImg,''), currencyCode, createdAt
+				SELECT id, amount,  bankAccountNumber, bankName, COALESCE(transferProofImg,''), currencyCode, createdAt
 				FROM transactions
 				WHERE userId = $1
 				ORDER BY createdAt DESC
