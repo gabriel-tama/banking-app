@@ -414,7 +414,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "go_memstats_alloc_bytes{instance=\"172.17.0.1:8080\"}",
+          "expr": "go_memstats_alloc_bytes{instance=\"backend:8080\"}",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -733,6 +733,6 @@
   "timezone": "browser",
   "title": "API-Summary",
   "uid": "ddh6fvf5p8g00b",
-  "version": 6,
+  "version": 7,
   "weekStart": ""
 }
