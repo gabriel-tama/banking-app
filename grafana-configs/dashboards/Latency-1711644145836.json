@@ -106,7 +106,7 @@
             "uid": "cdgyzg98rn7cwc"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.50, sum by (path, method, status) (rate(http_request_histogram_bucket[$__rate_interval])))",
+          "expr": "histogram_quantile(0.50, (rate(http_request_histogram_bucket[$__rate_interval])))",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
@@ -201,7 +201,7 @@
             "uid": "cdgyzg98rn7cwc"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum by (path, method, status) (rate(http_request_histogram_bucket[$__rate_interval])))",
+          "expr": "histogram_quantile(0.95, (rate(http_request_histogram_bucket[$__rate_interval])))",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
@@ -296,7 +296,7 @@
             "uid": "cdgyzg98rn7cwc"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.90, sum by (path, method, status) (rate(http_request_histogram_bucket[$__rate_interval])))",
+          "expr": "histogram_quantile(0.90, (rate(http_request_histogram_bucket[$__rate_interval])))",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
