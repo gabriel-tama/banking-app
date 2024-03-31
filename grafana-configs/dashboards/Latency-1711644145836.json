@@ -18,7 +18,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
   "links": [],
   "panels": [
     {
@@ -178,10 +177,10 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 0,
-        "y": 8
+        "x": 12,
+        "y": 0
       },
-      "id": 2,
+      "id": 1,
       "options": {
         "legend": {
           "calcs": [],
@@ -201,14 +200,14 @@
             "uid": "cdgyzg98rn7cwc"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, (rate(http_request_histogram_bucket[$__rate_interval])))",
+          "expr": "histogram_quantile(0.90, (rate(http_request_histogram_bucket[$__rate_interval])))",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "p95",
+      "title": "p90",
       "type": "timeseries"
     },
     {
@@ -271,12 +270,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
+        "h": 10,
+        "w": 24,
         "x": 0,
-        "y": 16
+        "y": 8
       },
-      "id": 1,
+      "id": 2,
       "options": {
         "legend": {
           "calcs": [],
@@ -296,14 +295,14 @@
             "uid": "cdgyzg98rn7cwc"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.90, (rate(http_request_histogram_bucket[$__rate_interval])))",
+          "expr": "histogram_quantile(0.95, (rate(http_request_histogram_bucket[$__rate_interval])))",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "p90",
+      "title": "p95",
       "type": "timeseries"
     }
   ],
@@ -313,13 +312,13 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Latency",
   "uid": "adh1icnzxknb4a",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }
