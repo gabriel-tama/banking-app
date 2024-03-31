@@ -1,6 +1,8 @@
 package balance
 
 import (
+	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -16,14 +18,39 @@ func NewController(service Service) *Controller {
 	return &Controller{service: service}
 }
 
+func StrictUnmarshal(data []byte, v interface{}) error {
+	fmt.Println(string(data))
+	fmt.Println(v)
+	dec := json.NewDecoder(bytes.NewReader(data))
+	dec.DisallowUnknownFields()
+	return dec.Decode(v)
+}
+
 func (c *Controller) AddBalance(ctx *gin.Context) {
 	var req AddBalancePayload
 
-	if err := ctx.ShouldBindJSON(&req); err != nil {
+	if err := ctx.BindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
-	err := c.service.Add(ctx, req)
+
+	err := req.Validate()
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+
+	data, err := json.Marshal(req)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+	}
+
+	err = StrictUnmarshal(data, &req)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+	}
+
+	err = c.service.Add(ctx, req)
 
 	if errors.Is(err, ErrValidationFailed) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
