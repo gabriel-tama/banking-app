@@ -9,8 +9,8 @@ services:
       # ⚠️ not a good production practice, because hacker can snoop the docker env within the docker container
       # but we need it for our demonstration
       DB_NAME: ${DB_NAME}
-      DB_PORT: ${DB_PORT}
-      DB_HOST: ${DB_HOST}
+      DB_PORT: 5432
+      DB_HOST: db
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_PARAMS: ${DB_PARAMS}
@@ -25,8 +25,19 @@ services:
       ENV: ${ENV}
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    volumes:
-      - /home/ubuntu/ap-southeast-1-bundle.pem:/home/ubuntu/ap-southeast-1-bundle.pem
+    networks:
+      - mynetwork
+
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - mynetwork
 
   prometheus:
     image: prom/prometheus:latest
@@ -85,3 +96,7 @@ services:
 volumes:
   prometheus_data:
   grafana_data:
+
+networks:
+  mynetwork:
+    driver: bridge

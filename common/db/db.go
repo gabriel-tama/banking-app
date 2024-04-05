@@ -21,7 +21,7 @@ func GetPostgresURL() string {
 	env, err := C.Get()
 
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Println("Error loading .env file")
 	}
 
 	dbHost := env.DBHost
