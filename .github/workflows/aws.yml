@@ -76,6 +76,11 @@ jobs:
           docker push $ECR/$BEC_NAME:$IMAGE_TAG
           echo "image=$ECR/$BEC_NAME:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22.x"
+
       - name: Build DB Connection String
         run: |
           echo "CONN_STRING=postgres://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD}}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}?${{ secrets.DB_PARAMS }}" >> $GITHUB_ENV
