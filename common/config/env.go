@@ -10,9 +10,6 @@ import (
 )
 
 type Config struct {
-	Port string
-	Host string
-
 	DBHost     string
 	DBPort     string
 	DBUser     string
@@ -36,7 +33,6 @@ func Get() (*Config, error) {
 	var Conf *Config
 	err := godotenv.Load()
 	if err != nil {
-		fmt.Println(err)
 		log.Println("Error loading .env file")
 	}
 
@@ -62,16 +58,9 @@ func Get() (*Config, error) {
 		log.Println("S3_REGION is empty")
 	}
 
-	s3Url := os.Getenv("S3_BASE_URL")
-	if s3Url == "" {
-		log.Println("S3_BASE_URL is empty")
-		s3Url = fmt.Sprintf("https://%s.s3.%s.amazonaws.com", S3Bucket, os.Getenv("S3_REGION"))
-	}
+	s3Url := fmt.Sprintf("https://%s.s3.%s.amazonaws.com", S3Bucket, os.Getenv("S3_REGION"))
 
 	Conf = &Config{
-		Port: os.Getenv("PORT"),
-		Host: os.Getenv("HOST"),
-
 		DBHost:     os.Getenv("DB_HOST"),
 		DBPort:     os.Getenv("DB_PORT"),
 		DBUser:     os.Getenv("DB_USERNAME"),

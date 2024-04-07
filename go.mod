@@ -13,7 +13,6 @@ require (
 	github.com/jackc/pgx/v5 v5.5.5
 	github.com/joho/godotenv v1.5.1
 	github.com/prometheus/client_golang v1.19.0
-	go.uber.org/ratelimit v0.3.1
 	golang.org/x/crypto v0.21.0
 )
 
@@ -32,7 +31,6 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.23.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.28.5 // indirect
 	github.com/aws/smithy-go v1.20.1 // indirect
-	github.com/benbjohnson/clock v1.3.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bytedance/sonic v1.9.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect

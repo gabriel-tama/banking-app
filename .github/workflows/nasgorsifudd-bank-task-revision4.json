@@ -1,0 +1,89 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:ap-southeast-1:560918124458:task-definition/nasgorsifudd-bank-task:4",
+    "containerDefinitions": [
+        {
+            "name": "nasgorsifudd-bank",
+            "image": "560918124458.dkr.ecr.ap-southeast-1.amazonaws.com/nasgorsifudd-bank:latest",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "nasgorsifudd-bank-8080-tcp",
+                    "containerPort": 8080,
+                    "hostPort": 8080,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "ulimits": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/nasgorsifudd-bank-task",
+                    "awslogs-region": "ap-southeast-1",
+                    "awslogs-stream-prefix": "ecs"
+                },
+                "secretOptions": []
+            },
+            "systemControls": []
+        }
+    ],
+    "family": "nasgorsifudd-bank-task",
+    "taskRoleArn": "arn:aws:iam::560918124458:role/projectsprint_ecs_task_role",
+    "executionRoleArn": "arn:aws:iam::560918124458:role/projectsprint_ecs_task_execution_role",
+    "networkMode": "awsvpc",
+    "revision": 4,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "1024",
+    "memory": "3072",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "registeredAt": "2024-04-06T13:37:37.558Z",
+    "registeredBy": "arn:aws:iam::560918124458:user/projectsprint-nasgorsifudd",
+    "tags": []
+}

@@ -26,3 +26,7 @@ docker-down:
 
 docker-build:
 	docker compose build
+
+docker-dev:
+	docker compose down
+	docker compose -f docker-compose.dev.yml up -d
