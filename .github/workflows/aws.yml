@@ -52,6 +52,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
           BEC_NAME: nasgorsifudd-bank
         run: |
+          echo "${{ secrets.AWS_PEM }}"
           echo "${{ secrets.AWS_PEM }}" | base64 -d > ap-southeast-1-bundle.pem
           # Build a docker container and
           # push it to ECR so that it can
@@ -71,7 +72,7 @@ jobs:
             --build-arg "S3_REGION=${{ secrets.S3_REGION }}" \
             --build-arg "S3_SECRET_KEY=${{ secrets.S3_SECRET_KEY }}" \
             --build-arg "BCRYPT_SALT=${{ secrets.BCRYPT_SALT }}" \
-            -t $ECR/$BEC_NAME:$IMAGE_TAG --file ./dockerfile/backend/Dockerfile .
+            -t $ECR/$BEC_NAME:$IMAGE_TAG --file ./dockerfiles/backend/Dockerfile .
           docker push $ECR/$BEC_NAME:$IMAGE_TAG
           echo "image=$ECR/$BEC_NAME:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
